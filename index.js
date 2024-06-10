@@ -41,8 +41,7 @@ const questions = [
     },
 ];
 // Function that writes file
-function writeFile(fileName, data){
-    fs.writeFile(fileName, data, (err) => err ? console.log(err) : console.log("Generated logo.svg", fileName))};
+    fs.writeFile(fileName, data, (err) => err ? console.log(err) : console.log("Generated logo.svg", fileName));
 
 
 async function init() {
