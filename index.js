@@ -55,29 +55,39 @@ async function init() {
         console.log("Invalid text entry, enter in only 1-3 characters!");
         return;
     };
-userShape = userInput.shape;
-console.log(userShape, "has been chosen");
+
+userShape = userInput["shape"];
+console.log("User entered shape: = [" + userShape + "]");
 userShapeColor = userInput.sColor;
-console.log(userShapeColor, "has been chosen");
-userText
+console.log("User shape's color: = [" + userShapeColor + "]");
+console.log("User text: [" + userText + "]");
 userTextColor = userInput.tColor;
-console.log(userTextColor, "has been chosen");
+console.log("User text's color: = ["+ userTextColor +"]");
 
+let userShape;
+	if (userShape.toLowerCase() === "triangle") {
+		userShape = new triangle();
+		console.log("User selected the triangle shape.");
+	} else if (userShape.toLowerCase() === "circle") {
+		userShape = new circle();
+		console.log("User selected the circle shape.");
+	} else if (userShape.toLowerCase() === "square") {
+		userShape = new square();
+		console.log("User selected the square shape.");
+	} else {
+		console.log("Invalid shape!");
+		return;
+	}
+	userShape.sColor(userShapeColor);
 
+	// Creates new Svg instance and adds shape/text elements
+	var svg = new Svg();
+	svg.tColor(userText, userTextColor);
+	svg.userShape(userShape);
+	let svgString = svg.render();
+	
+	writeToFile(svg_file, svgString);
 
-
-
-
-
-
-
-
-
-    .then((data) => {
-        const SVG = generateShape(data);
-        const fileName = `${data.text.toLowerCase().split(' ').join('_')}.svg`;
-        fs.writeFile(fileName, SVG, (err) => err ? console.log(err) : console.log("Success! your new logo has been created", fileName));
-    });
 };
 // Function call to initialize app
 init();
