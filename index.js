@@ -1,7 +1,22 @@
 const inquirer = require("inquirer");
-const generateShape = require('./lib/shapes.js');
+const {triangle, circle, square} = require('./lib/shapes');
 const fs = require('fs');
 
+class SVG{
+    constructor(){
+        this.shape = ''
+        this.text = ''
+    }
+    render(){
+        return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">${this.shape}${this.text}</svg>`
+    }
+    textColor(tColor, text){
+        this.text = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${tColor}">${text}</text>`
+    }
+    generateShape(shape){
+        this.generateShape = shape.render()
+    };
+};
 const questions = [
     {
         type: 'list',
@@ -11,18 +26,53 @@ const questions = [
     },
     {
         type: 'input',
-        message: 'Choose logo color.',
-        name: 'color',
+        message: 'Enter shape color.',
+        name: 'sColor',
     },
     {
         type: 'input',
-        message: 'Enter logo text.',
+        message: 'Enter logo text only uses 1-3 characters.',
         name: 'text',
     },
+    {
+        type: 'input',
+        message: 'Enter text color.',
+        name: 'tColor',
+    },
 ];
-// Function that receives data
-function init() {
-    inquirer.prompt(questions)
+// Function that writes file
+function writeFile(fileName, data){
+    fs.writeFile(fileName, data, (err) => err ? console.log(err) : console.log("Generated logo.svg", fileName))};
+
+
+async function init() {
+    const userInput = await inquirer.prompt(questions);
+
+    var userText = "";
+    if (userInput.text.length >0 || userInput.text.length < 4) {
+        userText = userInput.text;
+    } else {
+        console.log("Invalid text entry, enter in only 1-3 characters!");
+        return;
+    };
+userShape = userInput.shape;
+console.log(userShape, "has been chosen");
+userShapeColor = userInput.sColor;
+console.log(userShapeColor, "has been chosen");
+userText
+userTextColor = userInput.tColor;
+console.log(userTextColor, "has been chosen");
+
+
+
+
+
+
+
+
+
+
+
     .then((data) => {
         const SVG = generateShape(data);
         const fileName = `${data.text.toLowerCase().split(' ').join('_')}.svg`;
